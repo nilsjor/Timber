@@ -2,6 +2,7 @@ package com.naman14.timber.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -15,6 +16,9 @@ public class LyricsExtractor {
     public static String getLyrics(File file){
         String filename = file.getName();
         String fileending = filename.substring(filename.lastIndexOf('.')+1,filename.length()).toLowerCase();
+        try{
+            return getLyricsLRC(new File(file.getParent(),filename.substring(0,filename.lastIndexOf('.')+1) + "lrc"));
+        }catch(Exception e){}
         try{
             switch(fileending){
                 case "mp3":
@@ -60,6 +64,17 @@ public class LyricsExtractor {
             bytesinpage -= read;
         }
         return bytesinpage;
+    }
+
+    private static String getLyricsLRC(File file) throws Exception{
+        FileInputStream in = new FileInputStream(file);
+        InputStreamReader sin = new InputStreamReader(in, "UTF-8");
+        int nextbyte;
+        StringBuffer buffer = new StringBuffer("");
+        while ((nextbyte = sin.read()) != -1)
+            buffer.append((char) nextbyte);
+        sin.close();
+        return new String(buffer);
     }
 
     private static String getLyricsVorbis(File file) throws Exception{
