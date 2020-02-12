@@ -17,7 +17,7 @@ public class LyricsExtractor {
         String filename = file.getName();
         String fileending = filename.substring(filename.lastIndexOf('.')+1,filename.length()).toLowerCase();
         try{
-            return getLyricsLRC(new File(file.getParent(),filename.substring(0,filename.lastIndexOf('.')+1) + "lrc"));
+            return getLyricsTXT(new File(file.getParent(),filename.substring(0,filename.lastIndexOf('.')+1) + "txt"));
         }catch(Exception e){}
         try{
             switch(fileending){
@@ -66,7 +66,7 @@ public class LyricsExtractor {
         return bytesinpage;
     }
 
-    private static String getLyricsLRC(File file) throws Exception{
+    private static String getLyricsTXT(File file) throws Exception{
         FileInputStream in = new FileInputStream(file);
         InputStreamReader sin = new InputStreamReader(in, "UTF-8");
         int nextbyte;
